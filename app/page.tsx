@@ -2,7 +2,6 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getServerSession } from 'next-auth'
 
 import BarbershopItem from './_components/barbershop-item'
 import BookingItem from './_components/booking-item'
@@ -11,11 +10,11 @@ import Search from './_components/search'
 import { Button } from './_components/ui/button'
 import { quickSearchOptions } from './_constants/search'
 import { getConfirmedBookings } from './_data/get-confirmed-bookings'
-import { authOptions } from './_lib/auth'
+import { auth } from './_lib/auth'
 import { db } from './_lib/prisma'
 
 const Home = async () => {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const barbershops = await db.barbershop.findMany({})
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
